@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.554">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nunzio Knerr">
+<meta name="author" content="Robert Godfree">
+<meta name="dcterms.date" content="2024-10-24">
+
+<title>Introduction to pannotator package</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body>
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introductory-vignette" id="toc-introductory-vignette" class="nav-link active" data-scroll-target="#introductory-vignette">Introductory Vignette</a>
+  <ul class="collapse">
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a>
+  <ul class="collapse">
+  <li><a href="#minimum-requirements" id="toc-minimum-requirements" class="nav-link" data-scroll-target="#minimum-requirements">Minimum Requirements</a></li>
+  </ul></li>
+  <li><a href="#running-the-package" id="toc-running-the-package" class="nav-link" data-scroll-target="#running-the-package">Running the Package</a></li>
+  <li><a href="#user-interface-layout" id="toc-user-interface-layout" class="nav-link" data-scroll-target="#user-interface-layout">User Interface Layout</a>
+  <ul class="collapse">
+  <li><a href="#setup-and-configuration" id="toc-setup-and-configuration" class="nav-link" data-scroll-target="#setup-and-configuration">Setup and Configuration</a></li>
+  </ul></li>
+  <li><a href="#mapping-panel" id="toc-mapping-panel" class="nav-link" data-scroll-target="#mapping-panel">Mapping Panel</a></li>
+  <li><a href="#image-panel" id="toc-image-panel" class="nav-link" data-scroll-target="#image-panel">Image Panel</a>
+  <ul class="collapse">
+  <li><a href="#viewing-mode" id="toc-viewing-mode" class="nav-link" data-scroll-target="#viewing-mode">Viewing Mode</a></li>
+  <li><a href="#drawing-mode" id="toc-drawing-mode" class="nav-link" data-scroll-target="#drawing-mode">Drawing Mode</a></li>
+  </ul></li>
+  <li><a href="#annotation-panel" id="toc-annotation-panel" class="nav-link" data-scroll-target="#annotation-panel">Annotation Panel</a>
+  <ul class="collapse">
+  <li><a href="#adding-data-records" id="toc-adding-data-records" class="nav-link" data-scroll-target="#adding-data-records">Adding Data Records</a></li>
+  <li><a href="#help-files" id="toc-help-files" class="nav-link" data-scroll-target="#help-files">Help files</a></li>
+  <li><a href="#exporting-data" id="toc-exporting-data" class="nav-link" data-scroll-target="#exporting-data">Exporting Data</a></li>
+  <li><a href="#visualising-and-validating-data" id="toc-visualising-and-validating-data" class="nav-link" data-scroll-target="#visualising-and-validating-data">Visualising and Validating Data</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="pannotator_vignette.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Introduction to pannotator package</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Authors</div>
+    <div class="quarto-title-meta-contents">
+             <p>Nunzio Knerr </p>
+             <p>Robert Godfree </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 24, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introductory-vignette" class="level1">
+<h1>Introductory Vignette</h1>
+<p>The Panospheric Image Annotator in R (pannotator) software package provides an easy-to-use interface for visualising 360-degree camera images on satellite imagery and annotating the images with data selected from user-defined dropdown menus. It also allows the user to draw points, rectangles and complex polygons on 360-degree images and satellite or other map images, export geolocation and other annotation data for these geometries, and export geocoded cropped sub-images (patches) for use in other applications. It is designed for use in ecological and biogeographical research but can be used to extract data from any spatially explicit 360 degree camera imagery. This vignette provides an overview of the functionality of the package, including setup and configuration, interface layout, image selection, dropdown menu specification, annotation of image files, cropping sub-images and exporting data.</p>
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation</h2>
+<section id="minimum-requirements" class="level3">
+<h3 class="anchored" data-anchor-id="minimum-requirements">Minimum Requirements</h3>
+<p>To use this package, please ensure your system meets the following minimum requirements:</p>
+<ul>
+<li><p><strong>R version</strong>: 4.4.0 or higher</p></li>
+<li><p><strong>RStudio version</strong>: 2024.04.2+764 or higher</p></li>
+<li><p><strong>Shiny version</strong>: 1.9.1 or higher</p></li>
+</ul>
+<p>Additionally, ensure that all necessary system dependencies are installed for optimal performance.</p>
+<p>Below is some code to help ensure all dependencies are met:</p>
+<p>The software makes extensive use of ExifTool by Phil Harvey (<a href="https://exiftool.org/">Exiftool.org</a>). To make installation of ExifTool accessible in R there is a package exiftoolr that you must install by running the code below.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># First check if you have exiftoolr installed #</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>check_for_package <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="at">package =</span> <span class="st">"exiftoolr"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">print</span>(check_for_package)</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># If not run the following code #</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="cf">if</span>(check_for_package <span class="sc">==</span> <span class="st">""</span>) {</span>
+<span id="cb1-7"><a href="#cb1-7"></a>  <span class="fu">print</span>(<span class="st">"package not found .....installing now"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8"></a>  <span class="fu">install.packages</span>(<span class="st">"exiftoolr"</span>)} <span class="cf">else</span> {</span>
+<span id="cb1-9"><a href="#cb1-9"></a>  <span class="fu">print</span>(<span class="st">"package already installed"</span>)  </span>
+<span id="cb1-10"><a href="#cb1-10"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Now that you have installed exiftoolr we can check to make sure that ExifTool is on your system.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(exiftoolr)</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a>check_for_ExifTool <span class="ot">&lt;-</span> exiftoolr<span class="sc">::</span><span class="fu">exif_version</span>(<span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co"># Install ExifTool if not found</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="cf">if</span> (<span class="fu">exists</span>(<span class="st">"check_for_ExifTool"</span>)) {</span>
+<span id="cb2-7"><a href="#cb2-7"></a>  <span class="fu">print</span>(<span class="st">"ExifTool found on system"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8"></a>} <span class="cf">else</span> {</span>
+<span id="cb2-9"><a href="#cb2-9"></a>  <span class="fu">print</span>(<span class="st">"ExifTool not found ... installing now"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10"></a>  exiftoolr<span class="sc">::</span><span class="fu">install_exiftool</span>()}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>You must also install the ‘remotes’ package which we will use to install the pannotator package.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>check_for_package <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="at">package =</span> <span class="st">"remotes"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">print</span>(check_for_package)</span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co"># If not run the following code #</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="cf">if</span>(check_for_package <span class="sc">==</span> <span class="st">""</span>) {</span>
+<span id="cb3-6"><a href="#cb3-6"></a>  <span class="fu">print</span>(<span class="st">"package not found .....installing now"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7"></a>  <span class="fu">install.packages</span>(<span class="st">"remotes"</span>)} <span class="cf">else</span> {</span>
+<span id="cb3-8"><a href="#cb3-8"></a>  <span class="fu">print</span>(<span class="st">"package already installed"</span>)  </span>
+<span id="cb3-9"><a href="#cb3-9"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>One last package not currently on CRAN that you need is called ‘gridlayout’. The code below checks for that and if need be installs it using the remotes package.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>check_for_package <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="at">package =</span> <span class="st">"gridlayout"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="fu">print</span>(check_for_package)</span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co"># If not run the following code</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="cf">if</span> (check_for_package <span class="sc">==</span> <span class="st">""</span>) {</span>
+<span id="cb4-6"><a href="#cb4-6"></a>  <span class="fu">print</span>(<span class="st">"gridlayout package not found .....installing now"</span>)   </span>
+<span id="cb4-7"><a href="#cb4-7"></a>  remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"rstudio/gridlayout"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8"></a>} <span class="cf">else</span> {</span>
+<span id="cb4-9"><a href="#cb4-9"></a>  <span class="fu">print</span>(<span class="st">"gridlayout package is already installed"</span>)</span>
+<span id="cb4-10"><a href="#cb4-10"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>You can now install the development version of the pannotator software.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(remotes)</span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="co"># to install a local version use this code: #</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a>remotes<span class="sc">::</span><span class="fu">install_local</span>(<span class="at">path =</span> <span class="st">"path to the local file/pannotator_0.0.0.9000.tar.gz"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+</section>
+<section id="running-the-package" class="level2">
+<h2 class="anchored" data-anchor-id="running-the-package">Running the Package</h2>
+<p>To run the application use the following code.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">library</span>(pannotator)</span>
+<span id="cb6-2"><a href="#cb6-2"></a></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="fu">options</span>(<span class="at">shiny.port =</span> httpuv<span class="sc">::</span><span class="fu">randomPort</span>(), <span class="at">shiny.launch.browser =</span> .rs.invokeShinyWindowExternal)</span>
+<span id="cb6-4"><a href="#cb6-4"></a></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="fu">run_app</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Once run, the above code will popup a browser window with the shiny application inside it.</p>
+</section>
+<section id="user-interface-layout" class="level2">
+<h2 class="anchored" data-anchor-id="user-interface-layout">User Interface Layout</h2>
+<p>The pannotator graphical user interface contains three panels. The Mapping Panel (Figure 1, left) contains a button for selecting a .kmz file containing one or more images, a window for rendering the geolocation of images in the .kmz file onto satellite imagery or user-selectable maps, and several spatial mapping tools. The Image Panel (Figure 1, centre) contains a dropdown menu for navigating to individual image files and a window that loads the equirectangular image into 360-degree panoramic viewing mode using the Pannellum web viewer. It also allows the user to view and draw on flattened equirectangular images and export cropped sub-images. The Annotation Panel (right panel, Figure 1, right) contains a settings button (cog), image and annotation file information and a series of customisable dropdown menus that contain user names, help files, image annotation functionality, and export functions. This Shiny app relies on several R packages including leaflet, leaflet.extras, shinyFiles, exiftoolr and shinywidgets for key functionality.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Images/Figure1.png" class="img-fluid figure-img" style="width:95.0%"></p>
+<figcaption>Example layout of the pannotator package loaded with a .kmz file (left) and an individual image (centre).</figcaption>
+</figure>
+</div>
+<section id="setup-and-configuration" class="level3">
+<h3 class="anchored" data-anchor-id="setup-and-configuration">Setup and Configuration</h3>
+<p>The pannotator application can be opened in any web browser. Once running, settings can be accessed using the cog icon at the top corner of the Annotation Panel. The drop down window contains three panels: a ‘Main Settings’ tab, a ‘Lookups’ tab, and an ‘About This Software’ tab (Figure 2, left). In the Main Settings tab you can change general settings. These are grouped into 1) <em>Layout Settings</em>, including the size of the Mapping, Image and Annotation Panels, turning on or off popup alert windows, and altering the theme for the entire application, 2) <em>Mapping Panel Settings</em>, which includes setting the background map, icons and markers for points, rectangles and polygons drawn on maps, and the colour, weight and opacity of the stroke (outline) and the fill of polygons and rectangles, 3) <em>Image Panel Settings</em>, which includes the same functionality for drawing and formatting shapes but on 360-degree flattened equirectangular images in the Image Panel, and the capacity to turn off borders and fill on the exported version of cropped sub-images (‘Show Polygon Stroke/Fill in Cropped Image Export’ checkboxes), and 4) <em>Annotation Panel Settings</em> which includes choosing a custom user name lookup file (Figure 3, left) and defining the format of the annotation export file (e.g., .csv or .rds).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Images/Figure2.png" class="img-fluid figure-img" style="width:95.0%"></p>
+<figcaption>Main Settings (left and centre) and Lookups (right). The Lookups are tables that appear as dropdown menus in the Annotation Panel (below) and are used to add data annotations to images, markers and drawn geometries.</figcaption>
+</figure>
+</div>
+<p>In the ‘Lookups’ Panel (Figure 2, right) you can specify up to four data fields that will be used to annotate the images. The name of the data field name can be specified in the ‘Lookup Label’ text boxes. The categories for the data field are specified in an accompanying .csv file which can be linked using the ‘Lookup csv File’ browse buttons. The Lookup csv file has two columns: 1) a ‘display’ column and 2) a ‘value’ column. The text in the ‘display’ column will appear in the Lookup drop down menu and the ‘value’ will saved to the annotation file. This way your ‘display’ category can differ from the data field in the export file if needed. An accompanying .pdf help file can be uploaded to assist the annotator using the Lookup Help File browse buttons. The help file can then be accessed using buttons created in the Annotation Panel (see below).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Images/Figure3.png" class="img-fluid figure-img" style="width:95.0%"></p>
+<figcaption>Example .csv lookup files; user name (left) and general lookup variable, in this case plant species (right).</figcaption>
+</figure>
+</div>
+<p><strong>Note</strong>: once changes have been made to settings and configurations you can update them by clicking the ‘Apply Settings’ button.</p>
+<p><strong>Warning! If you change and update Lookup tables while in the process of annotating images, the structure of the annotation dataframe and exported annotation data will also change. This may affect the validity of data.</strong></p>
+</section>
+</section>
+<section id="mapping-panel" class="level2">
+<h2 class="anchored" data-anchor-id="mapping-panel">Mapping Panel</h2>
+<p>The Mapping Panel allows the user to open a .kmz file and render it using the <a href="https://leafletjs.com/">Leaflet</a> open source javascript library for mobile friendly interactive maps. This plots the geolocations of all images in the .kmz file (Figure 4, left), which is useful for visualising the layout of sampling transects or points associated with each .kmz file. The geolocation of the current image opened in the Image Panel is highlighted in purple (Figure 4, left). It also contains a button for adding overlays (e.g., fire history, vegetation types) to the satellite image for mapping purposes (Figure 4, right).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Images/Figure4.png" class="img-fluid figure-img" style="width:95.0%"></p>
+<figcaption>Mapping window (left) with overlay function (right).</figcaption>
+</figure>
+</div>
+<p>The window contains zoom in and zoom out buttons, a toolbar for drawing on the map and editing geometries, options for hiding various mapping layers, and the leaflet measure plugin (Figure 5A) which can be used to determine the distance of any feature from the location of a selected image or any other point on the map and calculate areas.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Images/Figure5.png" class="img-fluid figure-img" style="width:95.0%"></p>
+<figcaption>Tools for (A) distance and area measurement and addition of (B) point markers, (C) rectangles, and (D) polygons. The location of an example whole image annotation marker, which can be added in the Annotation Panel, is shown in (E).</figcaption>
+</figure>
+</div>
+<p>The drawing toolbar allows the user to drop specific geolocation point markers (Figure 5B), rectangles (Figure 5C) and complex polygons (Figure 5D) to which data may be then added using dropdown menus in the Annotation Panel. The appearance of these geometric objects (geometries) can be altered in the Mapping Panel Settings window. The toolbar also contains options to move and edit all geometric objects. Whole image annotation markers (Figure 5E) are added in the Annotation Panel.</p>
+<p>When a geometry is created by the user a linked dropdown menu appears in the Annotation Panel (see below) in which you can add data annotations. An object ID is also automatically generated based on the timestamp. In the Mapping Panel separate icons are now provided for geolocation point markers (map pin icon), whole image markers (image card; whole image markers identify the geographic location of the 360-degree image presented in the Image Panel), and polygons/rectangles (draw polygon icon) (Figure 5B-E). These icons also appear in the accompanying dropdown menus in the Annotation Panel (see below). When any geometric object is rolled over in the Mapping Panel the object ID is shown as a label, and if the geometry is clicked on the coloured icon type (i.e., point, polygon) is shown as well as the object ID (examples in Figure 5C-D). If multiple whole image annotations are created (and hence multiple markers linked to one underlying image and location) these will cluster on the map; the number of annotations/markers is indicated inside the cluster. When the cluster is clicked, the icons will spiderfy (i.e., explode or pop out) so that the markers can be individually selected (Figure 5E). The geolocation of whole image annotations cannot be changed, they will always retain the geolocation of the image they were assigned to.</p>
+<p>Finally, elements shown in the Mapping Panel are grouped according to (1) all 360 images from a .kmz file and the current image which has a small circle around it, (2) overlay, (3) whole image annotation markers, and (4) map annotation markers and polygons. Each group has a checkbox to toggle visibility.</p>
+</section>
+<section id="image-panel" class="level2">
+<h2 class="anchored" data-anchor-id="image-panel">Image Panel</h2>
+<p>The Image Panel has two modes: ‘Viewing Mode’ and “Drawing Mode’. The user switches between these modes using a button in the top right corner (‘Switch to Viewing Mode’ / ‘Switch to Drawing Mode’).</p>
+<section id="viewing-mode" class="level3">
+<h3 class="anchored" data-anchor-id="viewing-mode">Viewing Mode</h3>
+<p>In Viewing Mode the Pannellum web viewer loads an equirectangular image selected from those in the .kmz file using the ‘Image to Annotate’ dropdown menu and renders it in interactive 360-degree viewing mode. The panel has buttons for zoom in, zoom out and full screen mode and also contains the compass bearing of the direction in which the image is being viewed (if present in metadata).</p>
+<p>The 360-degree Viewing Mode allows the user to extract target information from each selected image. Figure 6 (below) shows several key ecological applications, including species identification and mapping (left), estimation of vertically projected ground-layer vegetation cover (centre), and estimation of crown health for individual trees (right). In each case data annotation is performed in the Annotation Panel using help files as visual and/or descriptive aids (see below).</p>
+<p>Estimation of vertically projected ground layer cover may be assisted by overlaying sampling templates constructed from reference images (e..g., camera images containing plots of specified size laid out using markers or tape etc.) onto each sample image. In this example (Figure 6 centre) a 10 m diameter plot is shown, centred on the vertically projected camera location. The plot has been broken into 4, 20 and 100 equal areal increments (90, 18 and 3.6 degrees) to assist with cover estimation of scattered and/or small taxa. The two orthogonal lines that divide the plot have been marked with 1 m increments to assist the user in estimating size and cover while taking into account image distortion.</p>
+<p>One key benefit of sampling in transects or in a regular pattern is that objects can be may be viewed from multiple perspectives for identification and/or classification. This is advantageous when sampling objects with obstructed views or large, three-dimensional objects that are not entirely visible from a single perspective.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Images/Figure6.png" class="img-fluid figure-img" style="width:95.0%"></p>
+<figcaption>Common ecological applications using the image panel. Left: species identification and mapping. Four candidate species are labelled (A-D). The plants labelled C and D can be located by dropping a pin in the Mapping Panel. Centre: cover estimation of ground layer vegetation. Cover may be assisted by comparison with example 25%, 5% and 1% areas. Right: Crown health classification. In this example the intent is to estimate the percentage of the potential crown that has healthy green leaves. Images can be drawn on and cropped and exported in Drawing Mode (below) .</figcaption>
+</figure>
+</div>
+</section>
+<section id="drawing-mode" class="level3">
+<h3 class="anchored" data-anchor-id="drawing-mode">Drawing Mode</h3>
+<p>When the Drawing Mode is enabled by clicking the ‘Switch to Drawing Mode’ button the Leaflet plugin loads a flattened equirectangular image in the Image Panel (i.e., <u>not</u> in 360-degree viewing format; Figure 7). A toolbar allows the user to draw point markers, rectangles and more complex polygons onto the equirectangular image, in the same way as the Mapping Panel. This allows the user to select sub-images (‘patches’ or ‘crops’) or locations on the original image that are of interest (e.g., vegetation or landforms; Figure 7). Any drawn geometric object can be moved and rectangles and polygons can be re-drawn. The display of geometric objects added in Drawing Mode (e.g., icon colour, marker colour, and the colour and opacity of the stroke (border) and fill of each rectangle or polygon) can be altered from the Image Panel Settings in the Main Settings tab.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Images/Figure7.png" class="img-fluid figure-img" style="width:95.0%"></p>
+<figcaption>Drawing Mode allows the user to draw points, rectangles and polygons on flattened equirectangular images.</figcaption>
+</figure>
+</div>
+<p>When a point or shape object is drawn onto the equirectangular image an ID number is created (based on timestamp) and added to the underlying annotation dataframe, along with its geometry (based on pixel-location(s)). A linked dropdown menu also opens in the Annotation Panel for adding data based on user-defined lookup tables (see below). Geometry icons and IDs are shown in both Annotation dropdowns and in the Image Panel (ID if rolled over, ID and icon if clicked). The metadata containing ID, geometry and annotations are automatically saved to the annotation dataframe and all records can be exported as a .csv/.rds using the ‘Export All Records’ button in the Annotation Panel.</p>
+<p>Finally, rectangle and polygon geometries drawn on a selected image can be exported using the ‘Export Cropped Polygon Images’ button. This generates a cropped image file (.png) of the underlying equirectangular image based on the bounding box of the drawn geometries. If the geometry stroke (border) and fill are enabled the image is cropped to a bounding box with a small buffer, and if it is disabled the image is cropped to the exact dimensions of the geometry bounding box (Figure 7). The stroke and fill of polygons on the exported version of cropped sub-images can be turned on and off using the ‘Show Polygon Stroke/Fill in Cropped Image Export’ checkboxes in the Image Panel Settings of the Main Settings (Figure 2, centre).</p>
+<p>The name of a cropped image consists of the associated geometric object’s ID appended to the original 360-degree image name, while the geolocation of the underlying image is embedded in the metadata. Cropped images are saved in a user-selected folder.</p>
+</section>
+</section>
+<section id="annotation-panel" class="level2">
+<h2 class="anchored" data-anchor-id="annotation-panel">Annotation Panel</h2>
+<p>The purpose of the Annotation Panel is to generate data from camera images using pre-determined data fields and then export that data. The top of the panel (Figure 8, left) shows the user name dropdown menu, annotation file name, and the image file currently loaded in the Image Panel. The user name list is customisable and each user name generates a separate annotation file. The ability to add multiple users is essential because it allows for evaluation of classification or scoring reliability among different users.</p>
+<section id="adding-data-records" class="level3">
+<h3 class="anchored" data-anchor-id="adding-data-records">Adding Data Records</h3>
+<p>A new data record is added to a selected equirectangular image by clicking the ‘Add A Whole Image Annotation’ button (Figure 8). In the example provided the presence of the plant species (desert oak, <em>Allocasuarina decaisneana</em>) is added to the image annotation. Dropdown menus for adding records are user defined according to the requirements of the project. Multiple new records can be added to each whole image; these are clustered in the Mapping Panel and exploded by clicking the cluster icon.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Images/Figure8.png" class="img-fluid figure-img" style="width:95.0%"></p>
+<figcaption>Adding a record to the whole image marker. The process is the same for points, rectangles and polygons drawn on maps or 360-degree equirectangular images.</figcaption>
+</figure>
+</div>
+<p>When point markers, rectangles or polygons are added to an image in either the Mapping Panel (e.g., on a satellite image) or the Image Panel (to an equirectangular image) a new data record is automatically generated in the Annotation Panel. All records contain an icon type (point-map, point-whole-image-annotation and polygon-map for objects in the Mapping Panel and point-360 and polygon-360 for objects in the Image Panel) to which the specific dropdown label name is appended (e.g., polygon-360-Species), and also an object ID (timestamp). Individual annotation records can be deleted using the ‘trash’ button and shown or hidden using the chevron button.</p>
+</section>
+<section id="help-files" class="level3">
+<h3 class="anchored" data-anchor-id="help-files">Help files</h3>
+<p>Data records are added with the assistance of help files accessed using the associated button. In this example the help file provided contains images of species present in the study area (Figure 8). Help files developed by the user can be uploaded as required. Examples include reference images for species identity (Figure 9, top row), cover classes (Figure 9, centre row) and size class (Figure 9, bottom row).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Images/Figure9.png" class="img-fluid figure-img" style="width:95.0%"></p>
+<figcaption>Example help files for collection of ecological data from 360 degree images.</figcaption>
+</figure>
+</div>
+</section>
+<section id="exporting-data" class="level3">
+<h3 class="anchored" data-anchor-id="exporting-data">Exporting Data</h3>
+<p>Data may be exported in .csv and .rds formats. An example .rds file viewed in R is provided below (Figure 9). The file contains user name, ID, image file, feature type (image marker or point marker), geometry and the four data fields specified in the Annotation Panel drop down menu.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Images/Figure10.png" class="img-fluid figure-img" style="width:95.0%"></p>
+<figcaption>Exported data file containing annotations appended to camera image metadata.</figcaption>
+</figure>
+</div>
+<p>Rectangle and polygon geometries drawn on a selected image in Drawing Mode of the Image Panel can be exported using the ‘Export Cropped Polygon Images’ button. This generates a cropped image file(s) (.png) which is/are saved to a user-defined folder.</p>
+</section>
+<section id="visualising-and-validating-data" class="level3">
+<h3 class="anchored" data-anchor-id="visualising-and-validating-data">Visualising and Validating Data</h3>
+<p>Below is a simple example of R code for visualising a sample of exported data using the R package mapview. Quarto files that contain a complete set of code for extracting and visualising species distribution data, cover data and tree crown health data, and that validate data extracted from images compared to data collected in the field are provided in the accompanying pannotator_Examples repository.</p>
+<p>This example code generates a plot of scores on the variable dd2 (percentage of tree crown with live leaves) using the package mapview.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="fu">library</span>(mapview)</span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="fu">library</span>(sf)</span>
+<span id="cb7-5"><a href="#cb7-5"></a></span>
+<span id="cb7-6"><a href="#cb7-6"></a></span>
+<span id="cb7-7"><a href="#cb7-7"></a>df_annotation <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"C:/user_1_annotations.rds"</span>) <span class="co"># read in the .rds file</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a>df_annotation <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(df_annotation, <span class="at">wkt =</span> <span class="st">"geometry"</span>,<span class="at">crs =</span> <span class="dv">4326</span>) <span class="co">#define </span></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="co">#the geometry</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a></span>
+<span id="cb7-11"><a href="#cb7-11"></a>df_annotation<span class="sc">$</span>dd2 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(df_annotation<span class="sc">$</span>dd2) <span class="co"># dd2 = -999 where crowns </span></span>
+<span id="cb7-12"><a href="#cb7-12"></a><span class="co"># have not been assessed for health (NA); range = 0 for no live leaves (entirely</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a><span class="co"># dead) to 100 for entire crown healthy with green leaves</span></span>
+<span id="cb7-14"><a href="#cb7-14"></a></span>
+<span id="cb7-15"><a href="#cb7-15"></a>df_annotation <span class="ot">&lt;-</span> <span class="fu">subset</span>(df_annotation, dd2 <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">1</span> ) <span class="co"># select only records where </span></span>
+<span id="cb7-16"><a href="#cb7-16"></a><span class="co"># Allocasuarina crowns have been assessed for health; that is, excluding NA records</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a></span>
+<span id="cb7-18"><a href="#cb7-18"></a></span>
+<span id="cb7-19"><a href="#cb7-19"></a><span class="fu">mapviewOptions</span>(<span class="at">basemaps =</span> <span class="fu">c</span>(<span class="st">"Esri.WorldImagery"</span>),</span>
+<span id="cb7-20"><a href="#cb7-20"></a>               <span class="at">vector.palette =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"red"</span>,<span class="st">"orange"</span>, <span class="st">"yellow"</span>, <span class="st">"green"</span>)),</span>
+<span id="cb7-21"><a href="#cb7-21"></a>               <span class="at">layers.control.pos =</span> <span class="st">"topright"</span>)</span>
+<span id="cb7-22"><a href="#cb7-22"></a></span>
+<span id="cb7-23"><a href="#cb7-23"></a></span>
+<span id="cb7-24"><a href="#cb7-24"></a><span class="fu">mapview</span>(df_annotation, <span class="at">zcol =</span> <span class="st">"dd2 "</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Images/Figure11.png" class="img-fluid figure-img" style="width:95.0%"></p>
+<figcaption>Map generated using mapview.</figcaption>
+</figure>
+</div>
+<p>This example code generates a plot of scores of the relationship between the number of plant species (i.e., species richness) recorded in a field survey (x axis) and camera survey (y axis) of the same plots (n = 79). It also fits a linear model to the relationship, plots the line of best fit, and prints the model statistics.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">#read in the species data file#</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a></span>
+<span id="cb8-3"><a href="#cb8-3"></a>species_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Calibration_species.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-4"><a href="#cb8-4"></a></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="co"># confirm that there are 79 plots of species data</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="fu">cat</span>(<span class="st">"The number of rows in the dataframe is"</span>, <span class="fu">nrow</span>(species_data), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb8-7"><a href="#cb8-7"></a></span>
+<span id="cb8-8"><a href="#cb8-8"></a></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="co"># now determine the relationship between plot-level species counts in the field survey versus camera survey counts. abline adds a linear model to the plot   #</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a></span>
+<span id="cb8-11"><a href="#cb8-11"></a><span class="fu">plot</span>(species_data<span class="sc">$</span>No_Field_species, species_data<span class="sc">$</span>No_Camera_species,</span>
+<span id="cb8-12"><a href="#cb8-12"></a>     <span class="at">main =</span> <span class="st">"Plot-level species richness"</span>,</span>
+<span id="cb8-13"><a href="#cb8-13"></a>     <span class="at">xlab =</span> <span class="st">"No. of species (Field Survey)"</span>,</span>
+<span id="cb8-14"><a href="#cb8-14"></a>     <span class="at">ylab =</span> <span class="st">"No. of species (Camera Survey)"</span>,</span>
+<span id="cb8-15"><a href="#cb8-15"></a>     <span class="at">pch =</span> <span class="dv">16</span>,  <span class="co"># Use filled circles as data points</span></span>
+<span id="cb8-16"><a href="#cb8-16"></a>     <span class="at">col =</span> <span class="st">"black"</span>,  <span class="co"># Set point color </span></span>
+<span id="cb8-17"><a href="#cb8-17"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">8</span>),  <span class="co"># Set y-axis limits</span></span>
+<span id="cb8-18"><a href="#cb8-18"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">8</span>))  <span class="co"># Set x-axis limits</span></span>
+<span id="cb8-19"><a href="#cb8-19"></a><span class="fu">abline</span>(<span class="fu">lm</span>(No_Camera_species <span class="sc">~</span> No_Field_species, <span class="at">data =</span> species_data), <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb8-20"><a href="#cb8-20"></a></span>
+<span id="cb8-21"><a href="#cb8-21"></a><span class="co"># view the linear model statistics #</span></span>
+<span id="cb8-22"><a href="#cb8-22"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(No_Camera_species <span class="sc">~</span> No_Field_species, <span class="at">data =</span> species_data)</span>
+<span id="cb8-23"><a href="#cb8-23"></a></span>
+<span id="cb8-24"><a href="#cb8-24"></a>model_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(model)</span>
+<span id="cb8-25"><a href="#cb8-25"></a><span class="fu">print</span>(model_summary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Images/Figure12.png" class="img-fluid figure-img" style="width:95.0%"></p>
+<figcaption>Relationship between number of plant species recorded in a field survey (x axis) and camera survey (y axis) of the same plots.</figcaption>
+</figure>
+</div>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
