@@ -1,2 +1,7 @@
-# pannotator
-Source code for CRAN package. It provides an interface for collecting ecological data from 360 degree image files and annotating them using dropdown menus.
+# pannotator introductory vignette
+
+
+This repository has the introductory vignette and user instructions for
+pannotator an R package for annotating 360 panospheric imagery.
+
+A web version is available [here](docs/)
