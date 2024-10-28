@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.554">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Nunzio Knerr">
 <meta name="author" content="Robert Godfree">
-<meta name="dcterms.date" content="2024-10-24">
+<meta name="dcterms.date" content="2024-10-28">
 
 <title>Introduction to pannotator package</title>
 <style>
@@ -36,7 +36,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -169,7 +169,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 24, 2024</p>
+      <p class="date">October 28, 2024</p>
     </div>
   </div>
   
@@ -243,30 +243,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-9"><a href="#cb3-9"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>One last package not currently on CRAN that you need is called ‘gridlayout’. The code below checks for that and if need be installs it using the remotes package.</p>
-<div class="cell">
-<details class="code-fold">
-<summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>check_for_package <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="at">package =</span> <span class="st">"gridlayout"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="fu">print</span>(check_for_package)</span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="co"># If not run the following code</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="cf">if</span> (check_for_package <span class="sc">==</span> <span class="st">""</span>) {</span>
-<span id="cb4-6"><a href="#cb4-6"></a>  <span class="fu">print</span>(<span class="st">"gridlayout package not found .....installing now"</span>)   </span>
-<span id="cb4-7"><a href="#cb4-7"></a>  remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"rstudio/gridlayout"</span>)</span>
-<span id="cb4-8"><a href="#cb4-8"></a>} <span class="cf">else</span> {</span>
-<span id="cb4-9"><a href="#cb4-9"></a>  <span class="fu">print</span>(<span class="st">"gridlayout package is already installed"</span>)</span>
-<span id="cb4-10"><a href="#cb4-10"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
 <p>You can now install the development version of the pannotator software.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(remotes)</span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="co"># to install a local version use this code: #</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a>remotes<span class="sc">::</span><span class="fu">install_local</span>(<span class="at">path =</span> <span class="st">"path to the local file/pannotator_0.0.0.9000.tar.gz"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">library</span>(remotes)</span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co"># to install from github use this code: </span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"nunzioknerr/pannotator_package_source"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -277,11 +261,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">library</span>(pannotator)</span>
-<span id="cb6-2"><a href="#cb6-2"></a></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="fu">options</span>(<span class="at">shiny.port =</span> httpuv<span class="sc">::</span><span class="fu">randomPort</span>(), <span class="at">shiny.launch.browser =</span> .rs.invokeShinyWindowExternal)</span>
-<span id="cb6-4"><a href="#cb6-4"></a></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="fu">run_app</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(pannotator)</span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="fu">options</span>(<span class="at">shiny.port =</span> httpuv<span class="sc">::</span><span class="fu">randomPort</span>(), <span class="at">shiny.launch.browser =</span> .rs.invokeShinyWindowExternal)</span>
+<span id="cb5-4"><a href="#cb5-4"></a></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="fu">run_app</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Once run, the above code will popup a browser window with the shiny application inside it.</p>
@@ -407,30 +391,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="fu">library</span>(mapview)</span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="fu">library</span>(RColorBrewer)</span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="fu">library</span>(sf)</span>
-<span id="cb7-5"><a href="#cb7-5"></a></span>
-<span id="cb7-6"><a href="#cb7-6"></a></span>
-<span id="cb7-7"><a href="#cb7-7"></a>df_annotation <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"C:/user_1_annotations.rds"</span>) <span class="co"># read in the .rds file</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a>df_annotation <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(df_annotation, <span class="at">wkt =</span> <span class="st">"geometry"</span>,<span class="at">crs =</span> <span class="dv">4326</span>) <span class="co">#define </span></span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="co">#the geometry</span></span>
-<span id="cb7-10"><a href="#cb7-10"></a></span>
-<span id="cb7-11"><a href="#cb7-11"></a>df_annotation<span class="sc">$</span>dd2 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(df_annotation<span class="sc">$</span>dd2) <span class="co"># dd2 = -999 where crowns </span></span>
-<span id="cb7-12"><a href="#cb7-12"></a><span class="co"># have not been assessed for health (NA); range = 0 for no live leaves (entirely</span></span>
-<span id="cb7-13"><a href="#cb7-13"></a><span class="co"># dead) to 100 for entire crown healthy with green leaves</span></span>
-<span id="cb7-14"><a href="#cb7-14"></a></span>
-<span id="cb7-15"><a href="#cb7-15"></a>df_annotation <span class="ot">&lt;-</span> <span class="fu">subset</span>(df_annotation, dd2 <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">1</span> ) <span class="co"># select only records where </span></span>
-<span id="cb7-16"><a href="#cb7-16"></a><span class="co"># Allocasuarina crowns have been assessed for health; that is, excluding NA records</span></span>
-<span id="cb7-17"><a href="#cb7-17"></a></span>
-<span id="cb7-18"><a href="#cb7-18"></a></span>
-<span id="cb7-19"><a href="#cb7-19"></a><span class="fu">mapviewOptions</span>(<span class="at">basemaps =</span> <span class="fu">c</span>(<span class="st">"Esri.WorldImagery"</span>),</span>
-<span id="cb7-20"><a href="#cb7-20"></a>               <span class="at">vector.palette =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"red"</span>,<span class="st">"orange"</span>, <span class="st">"yellow"</span>, <span class="st">"green"</span>)),</span>
-<span id="cb7-21"><a href="#cb7-21"></a>               <span class="at">layers.control.pos =</span> <span class="st">"topright"</span>)</span>
-<span id="cb7-22"><a href="#cb7-22"></a></span>
-<span id="cb7-23"><a href="#cb7-23"></a></span>
-<span id="cb7-24"><a href="#cb7-24"></a><span class="fu">mapview</span>(df_annotation, <span class="at">zcol =</span> <span class="st">"dd2 "</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="fu">library</span>(mapview)</span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="fu">library</span>(sf)</span>
+<span id="cb6-5"><a href="#cb6-5"></a></span>
+<span id="cb6-6"><a href="#cb6-6"></a></span>
+<span id="cb6-7"><a href="#cb6-7"></a>df_annotation <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"C:/user_1_annotations.rds"</span>) <span class="co"># read in the .rds file</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a>df_annotation <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(df_annotation, <span class="at">wkt =</span> <span class="st">"geometry"</span>,<span class="at">crs =</span> <span class="dv">4326</span>) <span class="co">#define </span></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="co">#the geometry</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a></span>
+<span id="cb6-11"><a href="#cb6-11"></a>df_annotation<span class="sc">$</span>dd2 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(df_annotation<span class="sc">$</span>dd2) <span class="co"># dd2 = -999 where crowns </span></span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="co"># have not been assessed for health (NA); range = 0 for no live leaves (entirely</span></span>
+<span id="cb6-13"><a href="#cb6-13"></a><span class="co"># dead) to 100 for entire crown healthy with green leaves</span></span>
+<span id="cb6-14"><a href="#cb6-14"></a></span>
+<span id="cb6-15"><a href="#cb6-15"></a>df_annotation <span class="ot">&lt;-</span> <span class="fu">subset</span>(df_annotation, dd2 <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">1</span> ) <span class="co"># select only records where </span></span>
+<span id="cb6-16"><a href="#cb6-16"></a><span class="co"># Allocasuarina crowns have been assessed for health; that is, excluding NA records</span></span>
+<span id="cb6-17"><a href="#cb6-17"></a></span>
+<span id="cb6-18"><a href="#cb6-18"></a></span>
+<span id="cb6-19"><a href="#cb6-19"></a><span class="fu">mapviewOptions</span>(<span class="at">basemaps =</span> <span class="fu">c</span>(<span class="st">"Esri.WorldImagery"</span>),</span>
+<span id="cb6-20"><a href="#cb6-20"></a>               <span class="at">vector.palette =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"red"</span>,<span class="st">"orange"</span>, <span class="st">"yellow"</span>, <span class="st">"green"</span>)),</span>
+<span id="cb6-21"><a href="#cb6-21"></a>               <span class="at">layers.control.pos =</span> <span class="st">"topright"</span>)</span>
+<span id="cb6-22"><a href="#cb6-22"></a></span>
+<span id="cb6-23"><a href="#cb6-23"></a></span>
+<span id="cb6-24"><a href="#cb6-24"></a><span class="fu">mapview</span>(df_annotation, <span class="at">zcol =</span> <span class="st">"dd2 "</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="quarto-figure quarto-figure-center">
@@ -443,31 +427,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">#read in the species data file#</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a></span>
-<span id="cb8-3"><a href="#cb8-3"></a>species_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Calibration_species.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb8-4"><a href="#cb8-4"></a></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="co"># confirm that there are 79 plots of species data</span></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="fu">cat</span>(<span class="st">"The number of rows in the dataframe is"</span>, <span class="fu">nrow</span>(species_data), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb8-7"><a href="#cb8-7"></a></span>
-<span id="cb8-8"><a href="#cb8-8"></a></span>
-<span id="cb8-9"><a href="#cb8-9"></a><span class="co"># now determine the relationship between plot-level species counts in the field survey versus camera survey counts. abline adds a linear model to the plot   #</span></span>
-<span id="cb8-10"><a href="#cb8-10"></a></span>
-<span id="cb8-11"><a href="#cb8-11"></a><span class="fu">plot</span>(species_data<span class="sc">$</span>No_Field_species, species_data<span class="sc">$</span>No_Camera_species,</span>
-<span id="cb8-12"><a href="#cb8-12"></a>     <span class="at">main =</span> <span class="st">"Plot-level species richness"</span>,</span>
-<span id="cb8-13"><a href="#cb8-13"></a>     <span class="at">xlab =</span> <span class="st">"No. of species (Field Survey)"</span>,</span>
-<span id="cb8-14"><a href="#cb8-14"></a>     <span class="at">ylab =</span> <span class="st">"No. of species (Camera Survey)"</span>,</span>
-<span id="cb8-15"><a href="#cb8-15"></a>     <span class="at">pch =</span> <span class="dv">16</span>,  <span class="co"># Use filled circles as data points</span></span>
-<span id="cb8-16"><a href="#cb8-16"></a>     <span class="at">col =</span> <span class="st">"black"</span>,  <span class="co"># Set point color </span></span>
-<span id="cb8-17"><a href="#cb8-17"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">8</span>),  <span class="co"># Set y-axis limits</span></span>
-<span id="cb8-18"><a href="#cb8-18"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">8</span>))  <span class="co"># Set x-axis limits</span></span>
-<span id="cb8-19"><a href="#cb8-19"></a><span class="fu">abline</span>(<span class="fu">lm</span>(No_Camera_species <span class="sc">~</span> No_Field_species, <span class="at">data =</span> species_data), <span class="at">col =</span> <span class="st">"red"</span>)</span>
-<span id="cb8-20"><a href="#cb8-20"></a></span>
-<span id="cb8-21"><a href="#cb8-21"></a><span class="co"># view the linear model statistics #</span></span>
-<span id="cb8-22"><a href="#cb8-22"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(No_Camera_species <span class="sc">~</span> No_Field_species, <span class="at">data =</span> species_data)</span>
-<span id="cb8-23"><a href="#cb8-23"></a></span>
-<span id="cb8-24"><a href="#cb8-24"></a>model_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(model)</span>
-<span id="cb8-25"><a href="#cb8-25"></a><span class="fu">print</span>(model_summary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">#read in the species data file#</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a>species_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Calibration_species.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb7-4"><a href="#cb7-4"></a></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="co"># confirm that there are 79 plots of species data</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="fu">cat</span>(<span class="st">"The number of rows in the dataframe is"</span>, <span class="fu">nrow</span>(species_data), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7"></a></span>
+<span id="cb7-8"><a href="#cb7-8"></a></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="co"># now determine the relationship between plot-level species counts in the field survey versus camera survey counts. abline adds a linear model to the plot   #</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a></span>
+<span id="cb7-11"><a href="#cb7-11"></a><span class="fu">plot</span>(species_data<span class="sc">$</span>No_Field_species, species_data<span class="sc">$</span>No_Camera_species,</span>
+<span id="cb7-12"><a href="#cb7-12"></a>     <span class="at">main =</span> <span class="st">"Plot-level species richness"</span>,</span>
+<span id="cb7-13"><a href="#cb7-13"></a>     <span class="at">xlab =</span> <span class="st">"No. of species (Field Survey)"</span>,</span>
+<span id="cb7-14"><a href="#cb7-14"></a>     <span class="at">ylab =</span> <span class="st">"No. of species (Camera Survey)"</span>,</span>
+<span id="cb7-15"><a href="#cb7-15"></a>     <span class="at">pch =</span> <span class="dv">16</span>,  <span class="co"># Use filled circles as data points</span></span>
+<span id="cb7-16"><a href="#cb7-16"></a>     <span class="at">col =</span> <span class="st">"black"</span>,  <span class="co"># Set point color </span></span>
+<span id="cb7-17"><a href="#cb7-17"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">8</span>),  <span class="co"># Set y-axis limits</span></span>
+<span id="cb7-18"><a href="#cb7-18"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">8</span>))  <span class="co"># Set x-axis limits</span></span>
+<span id="cb7-19"><a href="#cb7-19"></a><span class="fu">abline</span>(<span class="fu">lm</span>(No_Camera_species <span class="sc">~</span> No_Field_species, <span class="at">data =</span> species_data), <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb7-20"><a href="#cb7-20"></a></span>
+<span id="cb7-21"><a href="#cb7-21"></a><span class="co"># view the linear model statistics #</span></span>
+<span id="cb7-22"><a href="#cb7-22"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(No_Camera_species <span class="sc">~</span> No_Field_species, <span class="at">data =</span> species_data)</span>
+<span id="cb7-23"><a href="#cb7-23"></a></span>
+<span id="cb7-24"><a href="#cb7-24"></a>model_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(model)</span>
+<span id="cb7-25"><a href="#cb7-25"></a><span class="fu">print</span>(model_summary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="quarto-figure quarto-figure-center">
@@ -518,18 +502,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -561,7 +534,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -569,7 +564,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
