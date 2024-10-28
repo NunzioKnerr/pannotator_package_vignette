@@ -1,10 +1,10 @@
 ---
 title: "Introduction to pannotator package"
-editor: visual
 author:
   - name: "Nunzio Knerr"
   - name: "Robert Godfree"
 date: 'today'
+editor: visual
 format:
   html:
     mainfont: "Calibri"
@@ -105,28 +105,13 @@ if(check_for_package == "") {
   }
 ```
 
-One last package not currently on CRAN that you need is called 'gridlayout'. The code below checks for that and if need be installs it using the remotes package.
-
-```{r echo=TRUE, eval=FALSE, results='hold', warning=FALSE, include=TRUE}
-check_for_package <- system.file(package = "gridlayout")
-
-print(check_for_package)
-# If not run the following code
-if (check_for_package == "") {
-  print("gridlayout package not found .....installing now")   
-  remotes::install_github("rstudio/gridlayout")
-} else {
-  print("gridlayout package is already installed")
-}
-```
-
 You can now install the development version of the pannotator software.
 
 ```{r echo=TRUE, eval=FALSE, results='hold', warning=FALSE, include=TRUE}
 library(remotes)
 
-# to install a local version use this code: #
-remotes::install_local(path = "path to the local file/pannotator_0.0.0.9000.tar.gz") 
+# to install from github use this code: 
+remotes::install_github("nunzioknerr/pannotator_package_source")
   
 ```
 
