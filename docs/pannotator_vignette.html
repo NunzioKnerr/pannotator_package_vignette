@@ -8,7 +8,7 @@
 
 <meta name="author" content="Nunzio Knerr">
 <meta name="author" content="Robert Godfree">
-<meta name="dcterms.date" content="2024-10-28">
+<meta name="dcterms.date" content="2024-11-08">
 
 <title>Introduction to pannotator package</title>
 <style>
@@ -169,7 +169,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 28, 2024</p>
+      <p class="date">November 8, 2024</p>
     </div>
   </div>
   
@@ -263,7 +263,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(pannotator)</span>
 <span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="fu">options</span>(<span class="at">shiny.port =</span> httpuv<span class="sc">::</span><span class="fu">randomPort</span>(), <span class="at">shiny.launch.browser =</span> .rs.invokeShinyWindowExternal)</span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="fu">options</span>(<span class="at">shiny.port =</span> httpuv<span class="sc">::</span><span class="fu">randomPort</span>(), <span class="at">shiny.launch.browser =</span> .rs.invokeShinyWindowExternal, <span class="at">shiny.maxRequestSize =</span> <span class="dv">5000</span> <span class="sc">*</span> <span class="dv">1024</span><span class="sc">^</span><span class="dv">2</span>)</span>
 <span id="cb5-4"><a href="#cb5-4"></a></span>
 <span id="cb5-5"><a href="#cb5-5"></a><span class="fu">run_app</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -326,7 +326,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="viewing-mode">Viewing Mode</h3>
 <p>In Viewing Mode the Pannellum web viewer loads an equirectangular image selected from those in the .kmz file using the ‘Image to Annotate’ dropdown menu and renders it in interactive 360-degree viewing mode. The panel has buttons for zoom in, zoom out and full screen mode and also contains the compass bearing of the direction in which the image is being viewed (if present in metadata).</p>
 <p>The 360-degree Viewing Mode allows the user to extract target information from each selected image. Figure 6 (below) shows several key ecological applications, including species identification and mapping (left), estimation of vertically projected ground-layer vegetation cover (centre), and estimation of crown health for individual trees (right). In each case data annotation is performed in the Annotation Panel using help files as visual and/or descriptive aids (see below).</p>
-<p>Estimation of vertically projected ground layer cover may be assisted by overlaying sampling templates constructed from reference images (e..g., camera images containing plots of specified size laid out using markers or tape etc.) onto each sample image. In this example (Figure 6 centre) a 10 m diameter plot is shown, centred on the vertically projected camera location. The plot has been broken into 4, 20 and 100 equal areal increments (90, 18 and 3.6 degrees) to assist with cover estimation of scattered and/or small taxa. The two orthogonal lines that divide the plot have been marked with 1 m increments to assist the user in estimating size and cover while taking into account image distortion.</p>
+<p>Estimation of vertically projected ground layer cover may be assisted by overlaying sampling templates constructed from reference images (eg., camera images containing plots of specified size laid out using markers or tape etc.) onto each sample image. In this example (Figure 6 centre) a 10 m diameter plot is shown, centred on the vertically projected camera location. The plot has been broken into 4, 20 and 100 equal areal increments (90, 18 and 3.6 degrees) to assist with cover estimation of scattered and/or small taxa. The two orthogonal lines that divide the plot have been marked with 1 m increments to assist the user in estimating size and cover while taking into account image distortion.</p>
 <p>One key benefit of sampling in transects or in a regular pattern is that objects may be viewed from multiple perspectives for identification and/or classification. This is advantageous when sampling objects with obstructed views or large, three-dimensional objects that are not entirely visible from a single perspective.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
