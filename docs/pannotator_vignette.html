@@ -8,7 +8,7 @@
 
 <meta name="author" content="Nunzio Knerr">
 <meta name="author" content="Robert Godfree">
-<meta name="dcterms.date" content="2024-11-08">
+<meta name="dcterms.date" content="2024-11-29">
 
 <title>Introduction to pannotator package</title>
 <style>
@@ -118,17 +118,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introductory-vignette" id="toc-introductory-vignette" class="nav-link active" data-scroll-target="#introductory-vignette">Introductory Vignette</a>
-  <ul class="collapse">
+  <li><a href="#introductory-vignette" id="toc-introductory-vignette" class="nav-link active" data-scroll-target="#introductory-vignette">Introductory Vignette</a></li>
   <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a>
   <ul class="collapse">
   <li><a href="#minimum-requirements" id="toc-minimum-requirements" class="nav-link" data-scroll-target="#minimum-requirements">Minimum Requirements</a></li>
-  </ul></li>
+  <li><a href="#cran-version" id="toc-cran-version" class="nav-link" data-scroll-target="#cran-version">CRAN Version</a></li>
+  <li><a href="#development-version" id="toc-development-version" class="nav-link" data-scroll-target="#development-version">Development Version</a></li>
   <li><a href="#running-the-package" id="toc-running-the-package" class="nav-link" data-scroll-target="#running-the-package">Running the Package</a></li>
+  </ul></li>
   <li><a href="#user-interface-layout" id="toc-user-interface-layout" class="nav-link" data-scroll-target="#user-interface-layout">User Interface Layout</a>
   <ul class="collapse">
   <li><a href="#setup-and-configuration" id="toc-setup-and-configuration" class="nav-link" data-scroll-target="#setup-and-configuration">Setup and Configuration</a></li>
-  </ul></li>
   <li><a href="#mapping-panel" id="toc-mapping-panel" class="nav-link" data-scroll-target="#mapping-panel">Mapping Panel</a></li>
   <li><a href="#image-panel" id="toc-image-panel" class="nav-link" data-scroll-target="#image-panel">Image Panel</a>
   <ul class="collapse">
@@ -140,8 +140,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#adding-data-records" id="toc-adding-data-records" class="nav-link" data-scroll-target="#adding-data-records">Adding Data Records</a></li>
   <li><a href="#help-files" id="toc-help-files" class="nav-link" data-scroll-target="#help-files">Help files</a></li>
   <li><a href="#exporting-data" id="toc-exporting-data" class="nav-link" data-scroll-target="#exporting-data">Exporting Data</a></li>
-  <li><a href="#visualising-and-validating-data" id="toc-visualising-and-validating-data" class="nav-link" data-scroll-target="#visualising-and-validating-data">Visualising and Validating Data</a></li>
   </ul></li>
+  <li><a href="#visualising-and-validating-data" id="toc-visualising-and-validating-data" class="nav-link" data-scroll-target="#visualising-and-validating-data">Visualising and Validating Data</a></li>
   </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="pannotator_vignette.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
@@ -169,7 +169,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 8, 2024</p>
+      <p class="date">November 29, 2024</p>
     </div>
   </div>
   
@@ -184,76 +184,90 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="introductory-vignette" class="level1">
 <h1>Introductory Vignette</h1>
 <p>The Panospheric Image Annotator in R (pannotator) software package provides an easy-to-use interface for visualising 360-degree camera images on satellite or map imagery and annotating the images with data selected from user-defined dropdown menus. It also allows the user to draw points, rectangles and complex polygons on 360-degree images and satellite or other map images, export geolocation and other annotation data for these geometries, and export geocoded cropped sub-images (patches) for use in other applications. It is designed for use in ecological and biogeographical research but can be used to extract data from any spatially explicit 360 degree camera imagery. This vignette provides an overview of the functionality of the package, including setup and configuration, interface layout, image selection, dropdown menu specification, annotation of image files, cropping sub-images and exporting data.</p>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<section id="minimum-requirements" class="level3">
-<h3 class="anchored" data-anchor-id="minimum-requirements">Minimum Requirements</h3>
+</section>
+<section id="installation" class="level1">
+<h1>Installation</h1>
+<section id="minimum-requirements" class="level2">
+<h2 class="anchored" data-anchor-id="minimum-requirements">Minimum Requirements</h2>
 <p>To use this package, please ensure your system meets the following minimum requirements:</p>
 <ul>
 <li><p><strong>R version</strong>: 4.4.0 or higher</p></li>
 <li><p><strong>RStudio version</strong>: 2024.04.2+764 or higher</p></li>
 <li><p><strong>Shiny version</strong>: 1.9.1 or higher</p></li>
 </ul>
+</section>
+<section id="cran-version" class="level2">
+<h2 class="anchored" data-anchor-id="cran-version">CRAN Version</h2>
+<p>The pannotator package is now available on CRAN, to install it use the code below.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">install.packages</span>(<span class="st">"pannotator"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="development-version" class="level2">
+<h2 class="anchored" data-anchor-id="development-version">Development Version</h2>
 <p>Additionally, ensure that all necessary system dependencies are installed for optimal performance.</p>
 <p>Below is some code to help ensure all dependencies are met:</p>
 <p>The software makes extensive use of ExifTool by Phil Harvey (<a href="https://exiftool.org/">Exiftool.org</a>). To make installation of ExifTool accessible in R there is a package exiftoolr that you must install by running the code below.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># First check if you have exiftoolr installed #</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>check_for_package <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="at">package =</span> <span class="st">"exiftoolr"</span>)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">print</span>(check_for_package)</span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># If not run the following code #</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="cf">if</span>(check_for_package <span class="sc">==</span> <span class="st">""</span>) {</span>
-<span id="cb1-7"><a href="#cb1-7"></a>  <span class="fu">print</span>(<span class="st">"package not found .....installing now"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8"></a>  <span class="fu">install.packages</span>(<span class="st">"exiftoolr"</span>)} <span class="cf">else</span> {</span>
-<span id="cb1-9"><a href="#cb1-9"></a>  <span class="fu">print</span>(<span class="st">"package already installed"</span>)  </span>
-<span id="cb1-10"><a href="#cb1-10"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># First check if you have exiftoolr installed #</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>check_for_package <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="at">package =</span> <span class="st">"exiftoolr"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="fu">print</span>(check_for_package)</span>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co"># If not run the following code #</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="cf">if</span>(check_for_package <span class="sc">==</span> <span class="st">""</span>) {</span>
+<span id="cb2-7"><a href="#cb2-7"></a>  <span class="fu">print</span>(<span class="st">"package not found .....installing now"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8"></a>  <span class="fu">install.packages</span>(<span class="st">"exiftoolr"</span>)} <span class="cf">else</span> {</span>
+<span id="cb2-9"><a href="#cb2-9"></a>  <span class="fu">print</span>(<span class="st">"package already installed"</span>)  </span>
+<span id="cb2-10"><a href="#cb2-10"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Now that you have installed exiftoolr we can check to make sure that ExifTool is on your system.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(exiftoolr)</span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a>check_for_ExifTool <span class="ot">&lt;-</span> exiftoolr<span class="sc">::</span><span class="fu">exif_version</span>(<span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="co"># Install ExifTool if not found</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="cf">if</span> (<span class="fu">exists</span>(<span class="st">"check_for_ExifTool"</span>)) {</span>
-<span id="cb2-7"><a href="#cb2-7"></a>  <span class="fu">print</span>(<span class="st">"ExifTool found on system"</span>)</span>
-<span id="cb2-8"><a href="#cb2-8"></a>} <span class="cf">else</span> {</span>
-<span id="cb2-9"><a href="#cb2-9"></a>  <span class="fu">print</span>(<span class="st">"ExifTool not found ... installing now"</span>)</span>
-<span id="cb2-10"><a href="#cb2-10"></a>  exiftoolr<span class="sc">::</span><span class="fu">install_exiftool</span>()}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(exiftoolr)</span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a>check_for_ExifTool <span class="ot">&lt;-</span> exiftoolr<span class="sc">::</span><span class="fu">exif_version</span>(<span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co"># Install ExifTool if not found</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="cf">if</span> (<span class="fu">exists</span>(<span class="st">"check_for_ExifTool"</span>)) {</span>
+<span id="cb3-7"><a href="#cb3-7"></a>  <span class="fu">print</span>(<span class="st">"ExifTool found on system"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8"></a>} <span class="cf">else</span> {</span>
+<span id="cb3-9"><a href="#cb3-9"></a>  <span class="fu">print</span>(<span class="st">"ExifTool not found ... installing now"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10"></a>  exiftoolr<span class="sc">::</span><span class="fu">install_exiftool</span>()</span>
+<span id="cb3-11"><a href="#cb3-11"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>You must also install the ‘remotes’ package which we will use to install the pannotator package.</p>
+<p>You must also install the ‘remotes’ package which we will use to install the development version of the pannotator package.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>check_for_package <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="at">package =</span> <span class="st">"remotes"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">print</span>(check_for_package)</span>
-<span id="cb3-3"><a href="#cb3-3"></a></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="co"># If not run the following code #</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="cf">if</span>(check_for_package <span class="sc">==</span> <span class="st">""</span>) {</span>
-<span id="cb3-6"><a href="#cb3-6"></a>  <span class="fu">print</span>(<span class="st">"package not found .....installing now"</span>)</span>
-<span id="cb3-7"><a href="#cb3-7"></a>  <span class="fu">install.packages</span>(<span class="st">"remotes"</span>)} <span class="cf">else</span> {</span>
-<span id="cb3-8"><a href="#cb3-8"></a>  <span class="fu">print</span>(<span class="st">"package already installed"</span>)  </span>
-<span id="cb3-9"><a href="#cb3-9"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>check_for_package <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="at">package =</span> <span class="st">"remotes"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="fu">print</span>(check_for_package)</span>
+<span id="cb4-3"><a href="#cb4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co"># If not run the following code #</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="cf">if</span>(check_for_package <span class="sc">==</span> <span class="st">""</span>) {</span>
+<span id="cb4-6"><a href="#cb4-6"></a>  <span class="fu">print</span>(<span class="st">"package not found .....installing now"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7"></a>  <span class="fu">install.packages</span>(<span class="st">"remotes"</span>)} <span class="cf">else</span> {</span>
+<span id="cb4-8"><a href="#cb4-8"></a>  <span class="fu">print</span>(<span class="st">"package already installed"</span>)  </span>
+<span id="cb4-9"><a href="#cb4-9"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>You can now install the development version of the pannotator software.</p>
+<p>You can now install the development version of the pannotator package.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">library</span>(remotes)</span>
-<span id="cb4-2"><a href="#cb4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="co"># to install from github use this code: </span></span>
-<span id="cb4-4"><a href="#cb4-4"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"nunzioknerr/pannotator_package_source"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(remotes)</span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="co"># to install from github use this code: </span></span>
+<span id="cb5-4"><a href="#cb5-4"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"nunzioknerr/pannotator_package_source"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-</section>
 </section>
 <section id="running-the-package" class="level2">
 <h2 class="anchored" data-anchor-id="running-the-package">Running the Package</h2>
@@ -261,17 +275,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(pannotator)</span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="fu">options</span>(<span class="at">shiny.port =</span> httpuv<span class="sc">::</span><span class="fu">randomPort</span>(), <span class="at">shiny.launch.browser =</span> .rs.invokeShinyWindowExternal, <span class="at">shiny.maxRequestSize =</span> <span class="dv">5000</span> <span class="sc">*</span> <span class="dv">1024</span><span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb5-4"><a href="#cb5-4"></a></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="fu">run_app</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">library</span>(pannotator)</span>
+<span id="cb6-2"><a href="#cb6-2"></a></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="fu">options</span>(<span class="at">shiny.port =</span> httpuv<span class="sc">::</span><span class="fu">randomPort</span>(), <span class="at">shiny.launch.browser =</span> .rs.invokeShinyWindowExternal, <span class="at">shiny.maxRequestSize =</span> <span class="dv">5000</span> <span class="sc">*</span> <span class="dv">1024</span><span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb6-4"><a href="#cb6-4"></a></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="fu">run_app</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Once run, the above code will popup a browser window with the shiny application inside it.</p>
 </section>
-<section id="user-interface-layout" class="level2">
-<h2 class="anchored" data-anchor-id="user-interface-layout">User Interface Layout</h2>
+</section>
+<section id="user-interface-layout" class="level1">
+<h1>User Interface Layout</h1>
 <p>The pannotator graphical user interface contains three panels. The Mapping Panel (Figure 1, left) contains a button for selecting a .kmz file containing one or more images, a window for rendering the geolocation of images in the .kmz file onto satellite imagery or user-selectable maps, and several spatial mapping tools. The Image Panel (Figure 1, centre) contains a dropdown menu for navigating to individual image files and a window that loads the equirectangular image into 360-degree panoramic viewing mode using the Pannellum web viewer. It also allows the user to view and draw on flattened equirectangular images and export cropped sub-images. The Annotation Panel (right panel, Figure 1) contains a settings button (cog), image and annotation file information and a series of customisable dropdown menus that contain user names, help files, image annotation functionality, and export functions. This Shiny app relies on several R packages including leaflet, leaflet.extras, shinyFiles, exiftoolr and shinywidgets for key functionality.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -279,8 +294,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>Example layout of the pannotator package loaded with a .kmz file (left) and an individual image (centre).</figcaption>
 </figure>
 </div>
-<section id="setup-and-configuration" class="level3">
-<h3 class="anchored" data-anchor-id="setup-and-configuration">Setup and Configuration</h3>
+<section id="setup-and-configuration" class="level2">
+<h2 class="anchored" data-anchor-id="setup-and-configuration">Setup and Configuration</h2>
 <p>The pannotator application can be opened in any web browser. Once running, settings can be accessed using the cog icon at the top corner of the Annotation Panel. The drop down window contains three panels: a ‘Main Settings’ tab, a ‘Lookups’ tab, and an ‘About This Software’ tab (Figure 2, left). In the Main Settings tab you can change general settings. These are grouped into 1) <em>Layout Settings</em>, including the size of the Mapping, Image and Annotation Panels, turning on or off popup alert windows, and altering the theme for the entire application, 2) <em>Mapping Panel Settings</em>, which includes setting the background map, icons and markers for points, rectangles and polygons drawn on maps, and the colour, weight and opacity of the stroke (outline) and the fill of polygons and rectangles, 3) <em>Image Panel Settings</em>, which includes the same functionality for drawing and formatting shapes but on 360-degree flattened equirectangular images in the Image Panel, and the capacity to turn off borders and fill on the exported version of cropped sub-images (‘Show Polygon Stroke/Fill in Cropped Image Export’ checkboxes), and 4) <em>Annotation Panel Settings</em> which includes choosing a custom user name lookup file (Figure 2, centre &amp; Figure 3, right) and defining the format of the annotation export file (e.g., .csv or .rds).</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -297,7 +312,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p><strong>Note</strong>: once changes have been made to settings and configurations you can update them by clicking the ‘Apply Settings’ button.</p>
 <p><strong>Warning! If you change and update Lookup tables while in the process of annotating images, the structure of the annotation dataframe and exported annotation data will also change. This may affect the validity of data.</strong></p>
-</section>
 </section>
 <section id="mapping-panel" class="level2">
 <h2 class="anchored" data-anchor-id="mapping-panel">Mapping Panel</h2>
@@ -384,37 +398,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Rectangle and polygon geometries drawn on a selected image in Drawing Mode of the Image Panel can be exported using the ‘Export Cropped Polygon Images’ button. This generates a cropped image file(s) (.png) which is/are saved to a user-defined folder.</p>
 </section>
-<section id="visualising-and-validating-data" class="level3">
-<h3 class="anchored" data-anchor-id="visualising-and-validating-data">Visualising and Validating Data</h3>
+</section>
+<section id="visualising-and-validating-data" class="level2">
+<h2 class="anchored" data-anchor-id="visualising-and-validating-data">Visualising and Validating Data</h2>
 <p>Below is a simple example of R code for visualising a sample of exported data using the R package mapview. Quarto files that contain a complete set of code for extracting and visualising species distribution data, cover data and tree crown health data, and that validate data extracted from images compared to data collected in the field are provided in the accompanying pannotator_examples and pannotator_data_validation files.</p>
 <p>This example code generates a plot of scores on the variable dd2 (percentage of tree crown with live leaves) using the package mapview.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="fu">library</span>(mapview)</span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="fu">library</span>(RColorBrewer)</span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="fu">library</span>(sf)</span>
-<span id="cb6-5"><a href="#cb6-5"></a></span>
-<span id="cb6-6"><a href="#cb6-6"></a></span>
-<span id="cb6-7"><a href="#cb6-7"></a>df_annotation <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"C:/user_1_annotations.rds"</span>) <span class="co"># read in the .rds file</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a>df_annotation <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(df_annotation, <span class="at">wkt =</span> <span class="st">"geometry"</span>,<span class="at">crs =</span> <span class="dv">4326</span>) <span class="co">#define </span></span>
-<span id="cb6-9"><a href="#cb6-9"></a><span class="co">#the geometry</span></span>
-<span id="cb6-10"><a href="#cb6-10"></a></span>
-<span id="cb6-11"><a href="#cb6-11"></a>df_annotation<span class="sc">$</span>dd2 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(df_annotation<span class="sc">$</span>dd2) <span class="co"># dd2 = -999 where crowns </span></span>
-<span id="cb6-12"><a href="#cb6-12"></a><span class="co"># have not been assessed for health (NA); range = 0 for no live leaves (entirely</span></span>
-<span id="cb6-13"><a href="#cb6-13"></a><span class="co"># dead) to 100 for entire crown healthy with green leaves</span></span>
-<span id="cb6-14"><a href="#cb6-14"></a></span>
-<span id="cb6-15"><a href="#cb6-15"></a>df_annotation <span class="ot">&lt;-</span> <span class="fu">subset</span>(df_annotation, dd2 <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">1</span> ) <span class="co"># select only records where </span></span>
-<span id="cb6-16"><a href="#cb6-16"></a><span class="co"># Allocasuarina crowns have been assessed for health; that is, excluding NA records</span></span>
-<span id="cb6-17"><a href="#cb6-17"></a></span>
-<span id="cb6-18"><a href="#cb6-18"></a></span>
-<span id="cb6-19"><a href="#cb6-19"></a><span class="fu">mapviewOptions</span>(<span class="at">basemaps =</span> <span class="fu">c</span>(<span class="st">"Esri.WorldImagery"</span>),</span>
-<span id="cb6-20"><a href="#cb6-20"></a>               <span class="at">vector.palette =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"red"</span>,<span class="st">"orange"</span>, <span class="st">"yellow"</span>, <span class="st">"green"</span>)),</span>
-<span id="cb6-21"><a href="#cb6-21"></a>               <span class="at">layers.control.pos =</span> <span class="st">"topright"</span>)</span>
-<span id="cb6-22"><a href="#cb6-22"></a></span>
-<span id="cb6-23"><a href="#cb6-23"></a></span>
-<span id="cb6-24"><a href="#cb6-24"></a><span class="fu">mapview</span>(df_annotation, <span class="at">zcol =</span> <span class="st">"dd2 "</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="fu">library</span>(mapview)</span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="fu">library</span>(sf)</span>
+<span id="cb7-5"><a href="#cb7-5"></a></span>
+<span id="cb7-6"><a href="#cb7-6"></a></span>
+<span id="cb7-7"><a href="#cb7-7"></a>df_annotation <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"C:/user_1_annotations.rds"</span>) <span class="co"># read in the .rds file</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a>df_annotation <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(df_annotation, <span class="at">wkt =</span> <span class="st">"geometry"</span>,<span class="at">crs =</span> <span class="dv">4326</span>) <span class="co">#define </span></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="co">#the geometry</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a></span>
+<span id="cb7-11"><a href="#cb7-11"></a>df_annotation<span class="sc">$</span>dd2 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(df_annotation<span class="sc">$</span>dd2) <span class="co"># dd2 = -999 where crowns </span></span>
+<span id="cb7-12"><a href="#cb7-12"></a><span class="co"># have not been assessed for health (NA); range = 0 for no live leaves (entirely</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a><span class="co"># dead) to 100 for entire crown healthy with green leaves</span></span>
+<span id="cb7-14"><a href="#cb7-14"></a></span>
+<span id="cb7-15"><a href="#cb7-15"></a>df_annotation <span class="ot">&lt;-</span> <span class="fu">subset</span>(df_annotation, dd2 <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">1</span> ) <span class="co"># select only records where </span></span>
+<span id="cb7-16"><a href="#cb7-16"></a><span class="co"># Allocasuarina crowns have been assessed for health; that is, excluding NA records</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a></span>
+<span id="cb7-18"><a href="#cb7-18"></a></span>
+<span id="cb7-19"><a href="#cb7-19"></a><span class="fu">mapviewOptions</span>(<span class="at">basemaps =</span> <span class="fu">c</span>(<span class="st">"Esri.WorldImagery"</span>),</span>
+<span id="cb7-20"><a href="#cb7-20"></a>               <span class="at">vector.palette =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"red"</span>,<span class="st">"orange"</span>, <span class="st">"yellow"</span>, <span class="st">"green"</span>)),</span>
+<span id="cb7-21"><a href="#cb7-21"></a>               <span class="at">layers.control.pos =</span> <span class="st">"topright"</span>)</span>
+<span id="cb7-22"><a href="#cb7-22"></a></span>
+<span id="cb7-23"><a href="#cb7-23"></a></span>
+<span id="cb7-24"><a href="#cb7-24"></a><span class="fu">mapview</span>(df_annotation, <span class="at">zcol =</span> <span class="st">"dd2 "</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="quarto-figure quarto-figure-center">
@@ -427,31 +442,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">#read in the species data file#</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a></span>
-<span id="cb7-3"><a href="#cb7-3"></a>species_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Calibration_species.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb7-4"><a href="#cb7-4"></a></span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="co"># confirm that there are 79 plots of species data</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="fu">cat</span>(<span class="st">"The number of rows in the dataframe is"</span>, <span class="fu">nrow</span>(species_data), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb7-7"><a href="#cb7-7"></a></span>
-<span id="cb7-8"><a href="#cb7-8"></a></span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="co"># now determine the relationship between plot-level species counts in the field survey versus camera survey counts. abline adds a linear model to the plot   #</span></span>
-<span id="cb7-10"><a href="#cb7-10"></a></span>
-<span id="cb7-11"><a href="#cb7-11"></a><span class="fu">plot</span>(species_data<span class="sc">$</span>No_Field_species, species_data<span class="sc">$</span>No_Camera_species,</span>
-<span id="cb7-12"><a href="#cb7-12"></a>     <span class="at">main =</span> <span class="st">"Plot-level species richness"</span>,</span>
-<span id="cb7-13"><a href="#cb7-13"></a>     <span class="at">xlab =</span> <span class="st">"No. of species (Field Survey)"</span>,</span>
-<span id="cb7-14"><a href="#cb7-14"></a>     <span class="at">ylab =</span> <span class="st">"No. of species (Camera Survey)"</span>,</span>
-<span id="cb7-15"><a href="#cb7-15"></a>     <span class="at">pch =</span> <span class="dv">16</span>,  <span class="co"># Use filled circles as data points</span></span>
-<span id="cb7-16"><a href="#cb7-16"></a>     <span class="at">col =</span> <span class="st">"black"</span>,  <span class="co"># Set point color </span></span>
-<span id="cb7-17"><a href="#cb7-17"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">8</span>),  <span class="co"># Set y-axis limits</span></span>
-<span id="cb7-18"><a href="#cb7-18"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">8</span>))  <span class="co"># Set x-axis limits</span></span>
-<span id="cb7-19"><a href="#cb7-19"></a><span class="fu">abline</span>(<span class="fu">lm</span>(No_Camera_species <span class="sc">~</span> No_Field_species, <span class="at">data =</span> species_data), <span class="at">col =</span> <span class="st">"red"</span>)</span>
-<span id="cb7-20"><a href="#cb7-20"></a></span>
-<span id="cb7-21"><a href="#cb7-21"></a><span class="co"># view the linear model statistics #</span></span>
-<span id="cb7-22"><a href="#cb7-22"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(No_Camera_species <span class="sc">~</span> No_Field_species, <span class="at">data =</span> species_data)</span>
-<span id="cb7-23"><a href="#cb7-23"></a></span>
-<span id="cb7-24"><a href="#cb7-24"></a>model_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(model)</span>
-<span id="cb7-25"><a href="#cb7-25"></a><span class="fu">print</span>(model_summary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">#read in the species data file#</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a></span>
+<span id="cb8-3"><a href="#cb8-3"></a>species_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Calibration_species.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-4"><a href="#cb8-4"></a></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="co"># confirm that there are 79 plots of species data</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="fu">cat</span>(<span class="st">"The number of rows in the dataframe is"</span>, <span class="fu">nrow</span>(species_data), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb8-7"><a href="#cb8-7"></a></span>
+<span id="cb8-8"><a href="#cb8-8"></a></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="co"># now determine the relationship between plot-level species counts in the field survey versus camera survey counts. abline adds a linear model to the plot   #</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a></span>
+<span id="cb8-11"><a href="#cb8-11"></a><span class="fu">plot</span>(species_data<span class="sc">$</span>No_Field_species, species_data<span class="sc">$</span>No_Camera_species,</span>
+<span id="cb8-12"><a href="#cb8-12"></a>     <span class="at">main =</span> <span class="st">"Plot-level species richness"</span>,</span>
+<span id="cb8-13"><a href="#cb8-13"></a>     <span class="at">xlab =</span> <span class="st">"No. of species (Field Survey)"</span>,</span>
+<span id="cb8-14"><a href="#cb8-14"></a>     <span class="at">ylab =</span> <span class="st">"No. of species (Camera Survey)"</span>,</span>
+<span id="cb8-15"><a href="#cb8-15"></a>     <span class="at">pch =</span> <span class="dv">16</span>,  <span class="co"># Use filled circles as data points</span></span>
+<span id="cb8-16"><a href="#cb8-16"></a>     <span class="at">col =</span> <span class="st">"black"</span>,  <span class="co"># Set point color </span></span>
+<span id="cb8-17"><a href="#cb8-17"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">8</span>),  <span class="co"># Set y-axis limits</span></span>
+<span id="cb8-18"><a href="#cb8-18"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">8</span>))  <span class="co"># Set x-axis limits</span></span>
+<span id="cb8-19"><a href="#cb8-19"></a><span class="fu">abline</span>(<span class="fu">lm</span>(No_Camera_species <span class="sc">~</span> No_Field_species, <span class="at">data =</span> species_data), <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb8-20"><a href="#cb8-20"></a></span>
+<span id="cb8-21"><a href="#cb8-21"></a><span class="co"># view the linear model statistics #</span></span>
+<span id="cb8-22"><a href="#cb8-22"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(No_Camera_species <span class="sc">~</span> No_Field_species, <span class="at">data =</span> species_data)</span>
+<span id="cb8-23"><a href="#cb8-23"></a></span>
+<span id="cb8-24"><a href="#cb8-24"></a>model_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(model)</span>
+<span id="cb8-25"><a href="#cb8-25"></a><span class="fu">print</span>(model_summary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="quarto-figure quarto-figure-center">
@@ -462,7 +477,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 
 
-</section>
 </section>
 </section>
 
