@@ -43,9 +43,9 @@ systemfonts::system_fonts()
 
 The Panospheric Image Annotator in R (pannotator) software package provides an easy-to-use interface for visualising 360-degree camera images on satellite or map imagery and annotating the images with data selected from user-defined dropdown menus. It also allows the user to draw points, rectangles and complex polygons on 360-degree images and satellite or other map images, export geolocation and other annotation data for these geometries, and export geocoded cropped sub-images (patches) for use in other applications. It is designed for use in ecological and biogeographical research but can be used to extract data from any spatially explicit 360 degree camera imagery. This vignette provides an overview of the functionality of the package, including setup and configuration, interface layout, image selection, dropdown menu specification, annotation of image files, cropping sub-images and exporting data.
 
-## Installation
+# Installation
 
-### Minimum Requirements
+## Minimum Requirements
 
 To use this package, please ensure your system meets the following minimum requirements:
 
@@ -54,6 +54,18 @@ To use this package, please ensure your system meets the following minimum requi
 -   **RStudio version**: 2024.04.2+764 or higher
 
 -   **Shiny version**: 1.9.1 or higher
+
+## CRAN Version
+
+The pannotator package is now available on CRAN, to install it use the code below.
+
+```{r echo=TRUE, eval=FALSE, results='hold', warning=FALSE, include=TRUE}
+
+install.packages("pannotator")
+
+```
+
+## Development Version
 
 Additionally, ensure that all necessary system dependencies are installed for optimal performance.
 
@@ -78,6 +90,7 @@ if(check_for_package == "") {
 Now that you have installed exiftoolr we can check to make sure that ExifTool is on your system.
 
 ```{r, error=TRUE, eval= FALSE}
+
 library(exiftoolr)
 
 check_for_ExifTool <- exiftoolr::exif_version(quiet = TRUE)
@@ -87,13 +100,15 @@ if (exists("check_for_ExifTool")) {
   print("ExifTool found on system")
 } else {
   print("ExifTool not found ... installing now")
-  exiftoolr::install_exiftool()}
+  exiftoolr::install_exiftool()
+  }
 
 ```
 
-You must also install the 'remotes' package which we will use to install the pannotator package.
+You must also install the 'remotes' package which we will use to install the development version of the pannotator package.
 
 ```{r echo=TRUE, eval=FALSE, results='hold', warning=FALSE, include=TRUE}
+
 check_for_package <- system.file(package = "remotes")
 print(check_for_package)
 
@@ -105,9 +120,10 @@ if(check_for_package == "") {
   }
 ```
 
-You can now install the development version of the pannotator software.
+You can now install the development version of the pannotator package.
 
 ```{r echo=TRUE, eval=FALSE, results='hold', warning=FALSE, include=TRUE}
+
 library(remotes)
 
 # to install from github use this code: 
@@ -120,6 +136,7 @@ remotes::install_github("nunzioknerr/pannotator_package_source")
 To run the application use the following code.
 
 ```{r echo=TRUE, eval=FALSE, results='hold', warning=FALSE, include=TRUE}
+
 library(pannotator)
 
 options(shiny.port = httpuv::randomPort(), shiny.launch.browser = .rs.invokeShinyWindowExternal, shiny.maxRequestSize = 5000 * 1024^2)
@@ -129,13 +146,13 @@ run_app()
 
 Once run, the above code will popup a browser window with the shiny application inside it.
 
-## User Interface Layout
+# User Interface Layout
 
 The pannotator graphical user interface contains three panels. The Mapping Panel (Figure 1, left) contains a button for selecting a .kmz file containing one or more images, a window for rendering the geolocation of images in the .kmz file onto satellite imagery or user-selectable maps, and several spatial mapping tools. The Image Panel (Figure 1, centre) contains a dropdown menu for navigating to individual image files and a window that loads the equirectangular image into 360-degree panoramic viewing mode using the Pannellum web viewer. It also allows the user to view and draw on flattened equirectangular images and export cropped sub-images. The Annotation Panel (right panel, Figure 1) contains a settings button (cog), image and annotation file information and a series of customisable dropdown menus that contain user names, help files, image annotation functionality, and export functions. This Shiny app relies on several R packages including leaflet, leaflet.extras, shinyFiles, exiftoolr and shinywidgets for key functionality.
 
 ![Example layout of the pannotator package loaded with a .kmz file (left) and an individual image (centre).](Images/Figure1.png){fig-align="center" width="95%"}
 
-### Setup and Configuration
+## Setup and Configuration
 
 The pannotator application can be opened in any web browser. Once running, settings can be accessed using the cog icon at the top corner of the Annotation Panel. The drop down window contains three panels: a 'Main Settings' tab, a 'Lookups' tab, and an 'About This Software' tab (Figure 2, left). In the Main Settings tab you can change general settings. These are grouped into 1) *Layout Settings*, including the size of the Mapping, Image and Annotation Panels, turning on or off popup alert windows, and altering the theme for the entire application, 2) *Mapping Panel Settings*, which includes setting the background map, icons and markers for points, rectangles and polygons drawn on maps, and the colour, weight and opacity of the stroke (outline) and the fill of polygons and rectangles, 3) *Image Panel Settings*, which includes the same functionality for drawing and formatting shapes but on 360-degree flattened equirectangular images in the Image Panel, and the capacity to turn off borders and fill on the exported version of cropped sub-images ('Show Polygon Stroke/Fill in Cropped Image Export' checkboxes), and 4) *Annotation Panel Settings* which includes choosing a custom user name lookup file (Figure 2, centre & Figure 3, right) and defining the format of the annotation export file (e.g., .csv or .rds).
 
@@ -219,7 +236,7 @@ Data may be exported in .csv and .rds formats. An example .rds file viewed in R 
 
 Rectangle and polygon geometries drawn on a selected image in Drawing Mode of the Image Panel can be exported using the 'Export Cropped Polygon Images' button. This generates a cropped image file(s) (.png) which is/are saved to a user-defined folder.
 
-### Visualising and Validating Data
+## Visualising and Validating Data
 
 Below is a simple example of R code for visualising a sample of exported data using the R package mapview. Quarto files that contain a complete set of code for extracting and visualising species distribution data, cover data and tree crown health data, and that validate data extracted from images compared to data collected in the field are provided in the accompanying pannotator_examples and pannotator_data_validation files.
 
