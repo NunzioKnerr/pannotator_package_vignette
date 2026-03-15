@@ -68,5 +68,33 @@
     "title": "Introduction to pannotator package",
     "section": "Visualising and Validating Data",
     "text": "Visualising and Validating Data\nBelow is a simple example of R code for visualising a sample of exported data using the R package mapview. Quarto files that contain a complete set of code for extracting and visualising species distribution data, cover data and tree crown health data, and that validate data extracted from images compared to data collected in the field are provided in the accompanying pannotator_examples and pannotator_data_validation files.\nThis example code generates a plot of scores on the variable dd2 (percentage of tree crown with live leaves) using the package mapview.\n\n\nShow the code\nlibrary(dplyr)\nlibrary(mapview)\nlibrary(RColorBrewer)\nlibrary(sf)\n\n\ndf_annotation &lt;- readRDS(\"C:/user_1_annotations.rds\") # read in the .rds file\ndf_annotation &lt;- st_as_sf(df_annotation, wkt = \"geometry\",crs = 4326) #define \n#the geometry\n\ndf_annotation$dd2 &lt;- as.numeric(df_annotation$dd2) # dd2 = -999 where crowns \n# have not been assessed for health (NA); range = 0 for no live leaves (entirely\n# dead) to 100 for entire crown healthy with green leaves\n\ndf_annotation &lt;- subset(df_annotation, dd2 &gt; -1 ) # select only records where \n# Allocasuarina crowns have been assessed for health; that is, excluding NA records\n\n\nmapviewOptions(basemaps = c(\"Esri.WorldImagery\"),\n               vector.palette = colorRampPalette(c(\"red\",\"orange\", \"yellow\", \"green\")),\n               layers.control.pos = \"topright\")\n\n\nmapview(df_annotation, zcol = \"dd2 \", na.rm = TRUE)\n\n\n\n\n\nMap generated using mapview.\n\n\nThis example code generates a plot of scores of the relationship between the number of plant species (i.e., species richness) recorded in a field survey (x axis) and camera survey (y axis) of the same plots (n = 79). It also fits a linear model to the relationship, plots the line of best fit, and prints the model statistics.\n\n\nShow the code\n#read in the species data file#\n\nspecies_data &lt;- read_csv(\"Calibration_species.csv\", show_col_types = FALSE)\n\n# confirm that there are 79 plots of species data\ncat(\"The number of rows in the dataframe is\", nrow(species_data), \"\\n\")\n\n\n# now determine the relationship between plot-level species counts in the field survey versus camera survey counts. abline adds a linear model to the plot   #\n\nplot(species_data$No_Field_species, species_data$No_Camera_species,\n     main = \"Plot-level species richness\",\n     xlab = \"No. of species (Field Survey)\",\n     ylab = \"No. of species (Camera Survey)\",\n     pch = 16,  # Use filled circles as data points\n     col = \"black\",  # Set point color \n     ylim = c(0, 8),  # Set y-axis limits\n     xlim = c(0, 8))  # Set x-axis limits\nabline(lm(No_Camera_species ~ No_Field_species, data = species_data), col = \"red\")\n\n# view the linear model statistics #\nmodel &lt;- lm(No_Camera_species ~ No_Field_species, data = species_data)\n\nmodel_summary &lt;- summary(model)\nprint(model_summary)\n\n\n\n\n\nRelationship between number of plant species recorded in a field survey (x axis) and camera survey (y axis) of the same plots."
+  },
+  {
+    "objectID": "installAndRunPannotator.html",
+    "href": "installAndRunPannotator.html",
+    "title": "install and run pannotator",
+    "section": "",
+    "text": "To use this package, please ensure your system meets the following minimum requirements:\n\nR version: 4.4.0 or higher\nRStudio version: 2024.04.2+764 or higher\nShiny version: 1.9.1 or higher\n\n\n\n\nThe pannotator package is now available on CRAN, to install it use the code below.\n\ninstall.packages(\"pannotator\")\n\n\n\n\nTo run the application use the following code.\n\nlibrary(pannotator)\n\noptions(shiny.port = httpuv::randomPort(), shiny.launch.browser = .rs.invokeShinyWindowExternal, shiny.maxRequestSize = 5000 * 1024^2)\n\nrun_app()"
+  },
+  {
+    "objectID": "installAndRunPannotator.html#minimum-requirements",
+    "href": "installAndRunPannotator.html#minimum-requirements",
+    "title": "install and run pannotator",
+    "section": "",
+    "text": "To use this package, please ensure your system meets the following minimum requirements:\n\nR version: 4.4.0 or higher\nRStudio version: 2024.04.2+764 or higher\nShiny version: 1.9.1 or higher"
+  },
+  {
+    "objectID": "installAndRunPannotator.html#cran-version",
+    "href": "installAndRunPannotator.html#cran-version",
+    "title": "install and run pannotator",
+    "section": "",
+    "text": "The pannotator package is now available on CRAN, to install it use the code below.\n\ninstall.packages(\"pannotator\")"
+  },
+  {
+    "objectID": "installAndRunPannotator.html#running-the-package",
+    "href": "installAndRunPannotator.html#running-the-package",
+    "title": "install and run pannotator",
+    "section": "",
+    "text": "To run the application use the following code.\n\nlibrary(pannotator)\n\noptions(shiny.port = httpuv::randomPort(), shiny.launch.browser = .rs.invokeShinyWindowExternal, shiny.maxRequestSize = 5000 * 1024^2)\n\nrun_app()"
   }
 ]
